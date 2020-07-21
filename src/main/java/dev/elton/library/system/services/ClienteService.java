@@ -1,18 +1,12 @@
 package dev.elton.library.system.services;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.elton.library.system.entities.Cliente;
 import dev.elton.library.system.repositories.ClienteRepository;
@@ -32,48 +26,36 @@ public class ClienteService {
 		return clienteRepository.findAll();
 
 	}
-	
-	//encontrando cliente por id
+
+	// encontrando cliente por id
 	@GetMapping("/clientes/{id}")
 	public Cliente findCliente(@PathVariable Long id) {
 		Optional<Cliente> cliente = clienteRepository.findById(id);
 		return cliente.get();
 	}
+
+	// inserir no bd um objeto do tipo cliente
+	public Cliente insertCliente(Cliente cliente) {
+		return clienteRepository.save(cliente);
+	}
 	
 	//deletando cliente
-	@DeleteMapping("/clientes/{id}")
-	public void deleteCliente(@PathVariable long id) {
+	public void deleteCliente(Long id) {
 		clienteRepository.deleteById(id);
 	}
 	
-	//criando cliente
-	
-	@PostMapping("/clientes")
-	public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente){
-		Cliente clienteSalvo = clienteRepository.save(cliente);
-		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-						.buildAndExpand(clienteSalvo.getId()).toUri();
-		
-		return ResponseEntity.created(location).build();
-	}
-	
-	//dando update no cliente
-	
-	public ResponseEntity<Cliente> updateCliente(@RequestBody Cliente cliente, @PathVariable long id){
-		Optional<Cliente> clienteOptional = clienteRepository.findById(id);
-		
-		if(!clienteOptional.isPresent()) {
-			return ResponseEntity.notFound().build(); //retornando parametro sem body
-		}
-		
-		cliente.setId(id);
-		clienteRepository.save(cliente);
-		
-		return ResponseEntity.noContent().build();
+	//update clietne
+	public Cliente updateCliente(Long id, Cliente cliente) {
+		Cliente entity = clienteRepository.getOne(id);
+		updateData(entity, cliente);
+		return clienteRepository.save(entity);
 	}
 
-	
-	
-	
+	private void updateData(Cliente entity, Cliente cliente) {
+		
+		entity.setNome(cliente.getNome());
+		entity.setEmail(cliente.getEmail());
+		
+	}
+
 }
