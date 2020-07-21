@@ -1,8 +1,6 @@
 package dev.elton.library.system.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,17 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "livro")
 public class Livro implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -29,19 +24,14 @@ public class Livro implements Serializable {
 	private String descricao;
 	private String editora;
 	private String ano;
-	
-	//associacao do cliente
+
+	// associacao do cliente
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
-	private Cliente cliente; //livro tem 1 cliente
-	
-	//associacao da reserva
-	@OneToMany(mappedBy = "livro")
-	@JsonIgnore
-	private List<Reserva> reserva = new ArrayList<>();
-	
+	private Cliente cliente; // livro tem 1 cliente
+
 	public Livro() {
-		//default
+		// default
 	}
 
 	public Livro(Long id, String titulo, String autor, String descricao, String editora, String ano) {
@@ -110,13 +100,6 @@ public class Livro implements Serializable {
 		this.cliente = cliente;
 	}
 
-	
-	public List<Reserva> getReserva() {
-		return reserva;
-	}
-
-	
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -141,9 +124,5 @@ public class Livro implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
 
 }

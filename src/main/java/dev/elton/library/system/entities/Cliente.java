@@ -31,6 +31,11 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente")
 	private List<Livro> livros = new ArrayList<>(); //1 cliente tem varios livros
 	
+	//associacao pedido
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
+
 	public Cliente() {
 		
 		//default
@@ -72,6 +77,11 @@ public class Cliente implements Serializable {
 		return livros;
 	}
 	
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	
 
 	@Override
 	public int hashCode() {
@@ -98,6 +108,7 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
+	
 
 	
 	

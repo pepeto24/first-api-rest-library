@@ -12,56 +12,64 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "reserva")
-public class Reserva implements Serializable {
-
+@Table(name = "pedido")
+public class Pedido implements Serializable{
+	
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Instant agendamento;
-
-	// associacao
-
+	private Instant data;
+	
 	@ManyToOne
-	@JoinColumn(name = "id_livro")
-	private Livro livro;
-
-	public Reserva() {
-		// default
+	@JoinColumn(name = "id_cliente")
+	private Cliente cliente;
+	
+	
+	public Pedido() {
+		//default
 	}
 
-	public Reserva(Long id, Instant agendamento, Livro livro) {
+
+	public Pedido(Long id, Instant data, Cliente cliente) {
 		super();
 		this.id = id;
-		this.agendamento = agendamento;
-		this.livro = livro;
+		this.data = data;
+		this.cliente = cliente;
 	}
+
 
 	public Long getId() {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Instant getAgendamento() {
-		return agendamento;
+
+	public Instant getData() {
+		return data;
 	}
 
-	public void setAgendamento(Instant agendamento) {
-		this.agendamento = agendamento;
+
+	public void setData(Instant data) {
+		this.data = data;
 	}
 
-	public Livro getLivro() {
-		return livro;
+
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setLivro(Livro livro) {
-		this.livro = livro;
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -71,6 +79,7 @@ public class Reserva implements Serializable {
 		return result;
 	}
 
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -79,7 +88,7 @@ public class Reserva implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Reserva other = (Reserva) obj;
+		Pedido other = (Pedido) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -87,5 +96,6 @@ public class Reserva implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
 }
