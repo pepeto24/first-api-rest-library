@@ -26,12 +26,9 @@ public class Cliente implements Serializable {
 	private String nome;
 	private String email;
 	
-	//associacao
-	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
-	private List<Livro> livros = new ArrayList<>(); //1 cliente tem varios livros
-	
+		
 	//associacao pedido
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
@@ -73,9 +70,6 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 	
-	public List<Livro> getLivros() {
-		return livros;
-	}
 	
 	public List<Pedido> getPedidos() {
 		return pedidos;

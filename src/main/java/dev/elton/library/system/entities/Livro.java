@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,12 +22,7 @@ public class Livro implements Serializable {
 	private String descricao;
 	private String editora;
 	private String ano;
-
-	// associacao do cliente
-	@ManyToOne
-	@JoinColumn(name = "id_cliente")
-	private Cliente cliente; // livro tem 1 cliente
-
+	
 	public Livro() {
 		// default
 	}
@@ -92,13 +85,6 @@ public class Livro implements Serializable {
 		this.ano = ano;
 	}
 
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 
 	@Override
 	public int hashCode() {

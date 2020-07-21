@@ -11,65 +11,74 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import dev.elton.library.system.enums.PedidoStatus;
+
 @Entity
 @Table(name = "pedido")
-public class Pedido implements Serializable{
-	
-	
+public class Pedido implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant data;
-	
+
+	private Integer pedidoStatus;
+
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
-	
-	
+
 	public Pedido() {
-		//default
+		// default
 	}
 
-
-	public Pedido(Long id, Instant data, Cliente cliente) {
+	public Pedido(Long id, Instant data, PedidoStatus pedidoStatus, Cliente cliente) {
 		super();
 		this.id = id;
 		this.data = data;
+		setPedidoStatus(pedidoStatus);
 		this.cliente = cliente;
 	}
-
 
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public Instant getData() {
 		return data;
 	}
 
-
 	public void setData(Instant data) {
 		this.data = data;
 	}
 
+	public PedidoStatus getPedidoStatus() {
+		return PedidoStatus.valueOf(pedidoStatus);
+	}
+
+	public void setPedidoStatus(PedidoStatus pedidoStatus) {
+		if (pedidoStatus != null) {
+			this.pedidoStatus = pedidoStatus.getCodigo();
+		}
+	}
 
 	public Cliente getCliente() {
 		return cliente;
 	}
 
-
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -78,7 +87,6 @@ public class Pedido implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -96,6 +104,5 @@ public class Pedido implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
