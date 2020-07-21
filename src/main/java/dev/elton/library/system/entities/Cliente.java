@@ -1,13 +1,18 @@
 package dev.elton.library.system.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "cliente")
 public class Cliente implements Serializable {
 	
 
@@ -18,6 +23,10 @@ public class Cliente implements Serializable {
 	private Long id;
 	private String nome;
 	private String email;
+	
+	//associacao
+	@OneToMany(mappedBy = "cliente")
+	private List<Livro> livros = new ArrayList<>(); //1 cliente tem varios livros
 	
 	public Cliente() {
 		
@@ -55,6 +64,11 @@ public class Cliente implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public List<Livro> getLivros() {
+		return livros;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -80,7 +94,8 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+
 	
 	
 }
