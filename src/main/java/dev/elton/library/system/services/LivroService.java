@@ -23,9 +23,9 @@ public class LivroService {
 	@Autowired
 	private LivroRepository livroRepository;
 
-	// CRUD p/ Manter cliente
+	// CRUD p/ Manter livro
 
-	// encontrando/listando todos os clientes
+	// encontrando/listando todos os livros
 
 	@GetMapping("/livros")
 	public List<Livro> findAll() {
@@ -72,6 +72,8 @@ public class LivroService {
 		
 		return ResponseEntity.noContent().build();
 	}
+	
+	
 
 
 }

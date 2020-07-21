@@ -1,6 +1,8 @@
 package dev.elton.library.system.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "livro")
@@ -25,10 +30,15 @@ public class Livro implements Serializable {
 	private String editora;
 	private String ano;
 	
-	//associacoes
+	//associacao do cliente
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente; //livro tem 1 cliente
+	
+	//associacao da reserva
+	@OneToMany(mappedBy = "livro")
+	@JsonIgnore
+	private List<Reserva> reserva = new ArrayList<>();
 	
 	public Livro() {
 		//default
@@ -99,6 +109,13 @@ public class Livro implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
+	
+	public List<Reserva> getReserva() {
+		return reserva;
+	}
+
+	
 
 	@Override
 	public int hashCode() {

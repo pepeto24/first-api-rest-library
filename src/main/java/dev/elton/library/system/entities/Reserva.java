@@ -1,47 +1,42 @@
 package dev.elton.library.system.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-@Table(name = "cliente")
-public class Cliente implements Serializable {
-	
+@Table(name = "reserva")
+public class Reserva implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@Id	
+
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
-	private String email;
-	
-	//associacao
-	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
-	private List<Livro> livros = new ArrayList<>(); //1 cliente tem varios livros
-	
-	public Cliente() {
-		
-		//default
-	
+	private Instant agendamento;
+
+	// associacao
+
+	@ManyToOne
+	@JoinColumn(name = "id_livro")
+	private Livro livro;
+
+	public Reserva() {
+		// default
 	}
 
-	public Cliente(Long id, String nome, String email) {
+	public Reserva(Long id, Instant agendamento, Livro livro) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.email = email;
+		this.agendamento = agendamento;
+		this.livro = livro;
 	}
 
 	public Long getId() {
@@ -52,26 +47,21 @@ public class Cliente implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Instant getAgendamento() {
+		return agendamento;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setAgendamento(Instant agendamento) {
+		this.agendamento = agendamento;
 	}
 
-	public String getEmail() {
-		return email;
+	public Livro getLivro() {
+		return livro;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setLivro(Livro livro) {
+		this.livro = livro;
 	}
-	
-	public List<Livro> getLivros() {
-		return livros;
-	}
-	
 
 	@Override
 	public int hashCode() {
@@ -89,7 +79,7 @@ public class Cliente implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		Reserva other = (Reserva) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -98,7 +88,4 @@ public class Cliente implements Serializable {
 		return true;
 	}
 
-
-	
-	
 }
