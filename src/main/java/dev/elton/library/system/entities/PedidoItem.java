@@ -6,6 +6,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import dev.elton.library.system.entities.pk.PedidoItemPK;
 
 @Entity
@@ -15,7 +17,7 @@ public class PedidoItem implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private PedidoItemPK id;
+	private PedidoItemPK id = new PedidoItemPK();
 	
 	private Integer quantidade;
 	private Double valor;
@@ -32,6 +34,7 @@ public class PedidoItem implements Serializable{
 		this.valor = valor;
 	}
 	
+	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
@@ -39,6 +42,7 @@ public class PedidoItem implements Serializable{
 	public void setPedido(Pedido pedido) {
 		id.setPedido(pedido);
 	}
+	
 	
 	public Livro getLivro() {
 		return id.getLivro();

@@ -10,10 +10,13 @@ import org.springframework.context.annotation.Profile;
 
 import dev.elton.library.system.entities.Cliente;
 import dev.elton.library.system.entities.Livro;
+import dev.elton.library.system.entities.Pagamento;
 import dev.elton.library.system.entities.Pedido;
+import dev.elton.library.system.entities.PedidoItem;
 import dev.elton.library.system.enums.PedidoStatus;
 import dev.elton.library.system.repositories.ClienteRepository;
 import dev.elton.library.system.repositories.LivroRepository;
+import dev.elton.library.system.repositories.PedidoItemRepository;
 import dev.elton.library.system.repositories.PedidoRepository;
 
 @Configuration
@@ -31,6 +34,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private PedidoRepository pedidoRepository;
 	
+	@Autowired
+	private PedidoItemRepository pedidoItemRepository;
+	
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -42,8 +48,8 @@ public class TestConfig implements CommandLineRunner {
 		
 		clienteRepository.saveAll(Arrays.asList(c1,c2));
 		
-		Livro l1 = new Livro(null, "O Senhor dos Aneis - A sociedade do Anel", "JRR Tolkien", "Lorem ipsum", "Balrog", "1995");
-		Livro l2 = new Livro(null, "O senhor dos Aneis - As Duas Torres", "JRR Tolkien", "Lorem ipsum a", "Balrog", "1996");
+		Livro l1 = new Livro(null, "O Senhor dos Aneis - A sociedade do Anel", "JRR Tolkien", "Lorem ipsum", "Balrog", "1995", 6.99);
+		Livro l2 = new Livro(null, "O senhor dos Aneis - As Duas Torres", "JRR Tolkien", "Lorem ipsum a", "Balrog", "1996", 8.99);
 		
 		livroRepository.saveAll(Arrays.asList(l1,l2));
 		
@@ -52,6 +58,17 @@ public class TestConfig implements CommandLineRunner {
 		Pedido p2 = new Pedido(null, Instant.parse("2020-07-21T09:53:07Z"), PedidoStatus.RESERVADO, c2);
 		
 		pedidoRepository.saveAll(Arrays.asList(p1,p2));
+		
+		
+		PedidoItem pi1 = new PedidoItem(p1, l1, 1, l1.getValor());
+		PedidoItem pi2 = new PedidoItem(p2, l2, 2, l2.getValor());
+		
+		pedidoItemRepository.saveAll(Arrays.asList(pi1, pi2));
+		
+		Pagamento pag1 = new Pagamento(null, Instant.parse("2020-07-20T19:53:07Z"), p1);
+		p1.setPagamento(pag1);
+		
+		pedidoRepository.save(p1);
 		
 		
 	}

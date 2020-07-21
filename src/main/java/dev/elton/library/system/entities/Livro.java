@@ -1,12 +1,17 @@
 package dev.elton.library.system.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "livro")
@@ -22,12 +27,16 @@ public class Livro implements Serializable {
 	private String descricao;
 	private String editora;
 	private String ano;
+	private Double valor;
+	
+	@OneToMany(mappedBy = "id.livro")
+	private Set<PedidoItem> itens = new HashSet<>(); //para nao admitir repeticao do msm item
 	
 	public Livro() {
 		// default
 	}
 
-	public Livro(Long id, String titulo, String autor, String descricao, String editora, String ano) {
+	public Livro(Long id, String titulo, String autor, String descricao, String editora, String ano, Double valor) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
@@ -35,6 +44,7 @@ public class Livro implements Serializable {
 		this.descricao = descricao;
 		this.editora = editora;
 		this.ano = ano;
+		this.setValor(valor);
 	}
 
 	public Long getId() {
@@ -84,6 +94,25 @@ public class Livro implements Serializable {
 	public void setAno(String ano) {
 		this.ano = ano;
 	}
+	
+	public Double getValor() {
+		return valor;
+	}
+
+	public void setValor(Double valor) {
+		this.valor = valor;
+	}
+	
+	@JsonIgnore
+	public Set<Pedido> getPedidos(){
+		Set<Pedido> set = new HashSet<>();
+		for(PedidoItem x : itens) {
+			
+			set.add(x.getPedido());
+		}
+		
+		return set;
+	}
 
 
 	@Override
@@ -111,4 +140,5 @@ public class Livro implements Serializable {
 		return true;
 	}
 
+	
 }
