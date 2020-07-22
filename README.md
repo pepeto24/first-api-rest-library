@@ -1,7 +1,7 @@
 # first-api-rest-library
 
 Tecnologias Utilizadas:
-Spring, H2, PostgreSQL.
+Spring, H2 (para testes), PostgreSQL.
 
 Ferramentas:
 STS, Maven, Postman, Heroku.
